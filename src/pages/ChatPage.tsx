@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Bot, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import ChatMessage from "@/components/ChatMessage";
 import ChatInput from "@/components/ChatInput";
 import TypingIndicator from "@/components/TypingIndicator";
@@ -67,39 +67,47 @@ const ChatPage = () => {
   const showSuggestions = messages.length === 1;
 
   return (
-    <div className="flex flex-col h-screen bg-[hsl(160,30%,8%)] text-[hsl(150,20%,90%)]">
+    <div className="flex flex-col h-screen bg-[hsl(var(--chat-bg))] text-[hsl(var(--chat-text))]">
       {/* Header */}
-      <header className="flex items-center gap-3 px-4 py-3 border-b border-[hsl(160,20%,15%)] bg-[hsl(160,25%,10%)] shadow-soft">
-        <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <div className="w-9 h-9 rounded-full gradient-primary flex items-center justify-center">
-          <Bot className="w-5 h-5 text-primary-foreground" />
+      <header className="sticky top-0 z-50 w-full border-b border-[hsl(var(--chat-border))] bg-[hsl(var(--chat-bg))]/80 backdrop-blur-xl">
+        <div className="flex items-center gap-4 px-5 h-16">
+          <button
+            onClick={() => navigate("/")}
+            className="size-10 flex items-center justify-center rounded-full bg-[hsl(var(--chat-surface))] border border-[hsl(var(--chat-border))] hover:border-[hsl(var(--chat-glow))]/40 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 text-[hsl(var(--chat-text-dim))]" />
+          </button>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="size-10 rounded-2xl bg-gradient-to-br from-[hsl(var(--chat-moss))] to-[hsl(var(--chat-surface))] flex items-center justify-center border border-[hsl(var(--chat-border))]">
+                <div className="size-5 rounded-full bg-[hsl(var(--chat-glow))] blur-[8px] opacity-40 animate-pulse" />
+              </div>
+              <div className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-[hsl(var(--chat-glow))] border-2 border-[hsl(var(--chat-bg))]" />
+            </div>
+            <div>
+              <h1 className="text-sm font-heading font-semibold tracking-tight text-[hsl(var(--chat-text))]">GD AI – Smart HelpDesk</h1>
+              <p className="text-[11px] uppercase tracking-widest text-[hsl(var(--chat-glow))]/70 font-medium">Online</p>
+            </div>
+          </div>
+          <div className="flex-1" />
+          <Sparkles className="w-5 h-5 text-[hsl(var(--chat-glow))]/60" />
         </div>
-        <div className="flex-1">
-          <h1 className="font-heading font-semibold text-sm">GD AI – Smart HelpDesk</h1>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-soft" />
-            Online
-          </p>
-        </div>
-        <Sparkles className="w-5 h-5 text-secondary" />
       </header>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll p-4 space-y-4 bg-[hsl(160,25%,6%)]">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll p-5 space-y-6">
         {messages.map((msg, i) => (
           <ChatMessage key={i} role={msg.role} content={msg.content} />
         ))}
         {isLoading && !messages[messages.length - 1]?.content && <TypingIndicator />}
 
         {showSuggestions && (
-          <div className="flex flex-wrap gap-2 pt-2 animate-fade-in">
+          <div className="flex flex-wrap gap-3 pt-4 animate-fade-in">
             {SUGGESTIONS.map((s) => (
               <button
                 key={s}
                 onClick={() => send(s)}
-                className="text-xs px-3 py-1.5 rounded-full border border-primary/30 text-primary hover:bg-accent transition-colors"
+                className="shrink-0 px-4 py-2 rounded-full border border-[hsl(var(--chat-border))] bg-[hsl(var(--chat-surface))]/50 text-[hsl(var(--chat-text-dim))] text-xs font-medium hover:border-[hsl(var(--chat-glow))]/50 hover:text-[hsl(var(--chat-glow))] transition-all"
               >
                 {s}
               </button>

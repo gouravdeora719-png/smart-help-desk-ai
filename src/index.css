@@ -52,6 +52,16 @@
     --gradient-chat-ai: linear-gradient(135deg, hsl(160, 30%, 95%), hsl(170, 25%, 92%));
     --shadow-soft: 0 4px 20px -4px hsl(160 40% 30% / 0.12);
     --shadow-glow: 0 0 30px hsl(160 60% 40% / 0.2);
+
+    /* Bioluminescent chat tokens */
+    --chat-bg: 150 30% 2%;
+    --chat-surface: 155 25% 5%;
+    --chat-surface-light: 155 20% 8%;
+    --chat-border: 155 15% 10%;
+    --chat-glow: 170 76% 50%;
+    --chat-moss: 175 60% 18%;
+    --chat-text: 30 10% 80%;
+    --chat-text-dim: 30 5% 40%;
   }
 
   .dark {
