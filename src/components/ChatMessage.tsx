@@ -1,4 +1,3 @@
-import { Bot, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 interface ChatMessageProps {
@@ -10,31 +9,18 @@ const ChatMessage = ({ role, content }: ChatMessageProps) => {
   const isAI = role === "assistant";
 
   return (
-    <div className={`flex gap-3 animate-slide-up ${isAI ? "" : "flex-row-reverse"}`}>
-      <div
-        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-          isAI ? "gradient-primary" : "bg-secondary"
-        }`}
-      >
+    <div className={`flex gap-4 animate-slide-up ${isAI ? "" : "justify-end"}`}>
+      <div className={`max-w-[85%] space-y-1 ${isAI ? "" : ""}`}>
         {isAI ? (
-          <Bot className="w-4 h-4 text-primary-foreground" />
-        ) : (
-          <User className="w-4 h-4 text-secondary-foreground" />
-        )}
-      </div>
-      <div
-        className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-          isAI
-            ? "gradient-chat-ai text-foreground rounded-tl-sm"
-            : "gradient-primary text-primary-foreground rounded-tr-sm"
-        }`}
-      >
-        {isAI ? (
-          <div className="chat-markdown text-sm leading-relaxed">
-            <ReactMarkdown>{content}</ReactMarkdown>
+          <div className="inline-block px-5 py-4 rounded-3xl bg-[hsl(var(--chat-surface))] border border-[hsl(var(--chat-border))] text-[hsl(var(--chat-text))] leading-relaxed shadow-[0_0_40px_-15px_hsl(var(--chat-glow)/0.05)]">
+            <div className="chat-markdown text-sm leading-relaxed">
+              <ReactMarkdown>{content}</ReactMarkdown>
+            </div>
           </div>
         ) : (
-          <p className="text-sm leading-relaxed">{content}</p>
+          <div className="px-5 py-4 rounded-3xl bg-[hsl(var(--chat-moss))]/20 border border-[hsl(var(--chat-moss))]/40 text-[hsl(var(--chat-text))] leading-relaxed">
+            <p className="text-sm leading-relaxed text-pretty">{content}</p>
+          </div>
         )}
       </div>
     </div>
