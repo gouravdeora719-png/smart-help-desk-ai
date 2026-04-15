@@ -67,9 +67,9 @@ const ChatPage = () => {
   const showSuggestions = messages.length === 1;
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-[hsl(160,30%,8%)] text-[hsl(150,20%,90%)]">
       {/* Header */}
-      <header className="flex items-center gap-3 px-4 py-3 border-b border-border bg-card shadow-soft">
+      <header className="flex items-center gap-3 px-4 py-3 border-b border-[hsl(160,20%,15%)] bg-[hsl(160,25%,10%)] shadow-soft">
         <button onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -87,7 +87,7 @@ const ChatPage = () => {
       </header>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll p-4 space-y-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto chat-scroll p-4 space-y-4 bg-[hsl(160,25%,6%)]">
         {messages.map((msg, i) => (
           <ChatMessage key={i} role={msg.role} content={msg.content} />
         ))}
