@@ -1,14 +1,25 @@
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
+export const CHAT_MODELS = [
+  { id: "google/gemini-3-flash-preview", label: "Gemini 3 Flash ⚡" },
+  { id: "google/gemini-2.5-flash-lite", label: "Gemini Flash Lite 🪶" },
+  { id: "openai/gpt-5-mini", label: "GPT-5 Mini 🤖" },
+  { id: "openai/gpt-5-nano", label: "GPT-5 Nano 🚀" },
+] as const;
+
+export type ChatModelId = (typeof CHAT_MODELS)[number]["id"];
+
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 export async function streamChat({
   messages,
+  model,
   onDelta,
   onDone,
   onError,
 }: {
   messages: ChatMessage[];
+  model?: ChatModelId;
   onDelta: (text: string) => void;
   onDone: () => void;
   onError: (error: string) => void;
@@ -19,7 +30,7 @@ export async function streamChat({
       "Content-Type": "application/json",
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, model }),
   });
 
   if (!resp.ok) {
