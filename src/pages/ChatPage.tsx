@@ -4,7 +4,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 import ChatMessage from "@/components/ChatMessage";
 import ChatInput from "@/components/ChatInput";
 import TypingIndicator from "@/components/TypingIndicator";
-import { streamChat, type ChatMessage as Msg } from "@/lib/streamChat";
+import { streamChat, CHAT_MODELS, type ChatModelId, type ChatMessage as Msg } from "@/lib/streamChat";
 import { toast } from "@/hooks/use-toast";
 
 const INITIAL_MESSAGE: Msg = {
@@ -24,6 +24,7 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Msg[]>([INITIAL_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
+  const [model, setModel] = useState<ChatModelId>(CHAT_MODELS[0].id);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const ChatPage = () => {
     try {
       await streamChat({
         messages: historyForAPI,
+        model,
         onDelta: (chunk) => {
           assistantSoFar += chunk;
           setMessages((prev) => {
@@ -91,6 +93,17 @@ const ChatPage = () => {
           </div>
           <div className="flex-1" />
           <Sparkles className="w-5 h-5 text-[hsl(var(--chat-glow))]/60" />
+          <select
+            value={model}
+            onChange={(e) => setModel(e.target.value as ChatModelId)}
+            className="ml-2 bg-[hsl(var(--chat-surface))] border border-[hsl(var(--chat-border))] text-[hsl(var(--chat-text))] text-xs rounded-full px-3 py-1.5 outline-none hover:border-[hsl(var(--chat-glow))]/40 focus:border-[hsl(var(--chat-glow))]/60 transition-colors cursor-pointer"
+          >
+            {CHAT_MODELS.map((m) => (
+              <option key={m.id} value={m.id} className="bg-[hsl(var(--chat-surface))]">
+                {m.label}
+              </option>
+            ))}
+          </select>
         </div>
       </header>
 
