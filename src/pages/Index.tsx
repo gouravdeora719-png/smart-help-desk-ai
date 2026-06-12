@@ -1,11 +1,43 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { MessageSquare, LogIn, Info, Bot, Sparkles } from "lucide-react";
+
+const WALLPAPERS = [
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&q=80",
+  "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1600&q=80",
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80",
+  "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80",
+  "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1600&q=80",
+  "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=1600&q=80",
+];
 
 const Index = () => {
   const navigate = useNavigate();
+  const [bgIndex, setBgIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setBgIndex((i) => (i + 1) % WALLPAPERS.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col gradient-hero text-primary-foreground relative overflow-hidden">
+    <div className="min-h-screen flex flex-col text-primary-foreground relative overflow-hidden bg-black">
+      {/* Rotating wallpapers */}
+      {WALLPAPERS.map((src, i) => (
+        <div
+          key={src}
+          className="absolute inset-0 bg-cover bg-center transition-opacity duration-[1500ms] ease-in-out"
+          style={{
+            backgroundImage: `url(${src})`,
+            opacity: i === bgIndex ? 1 : 0,
+          }}
+        />
+      ))}
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+
       {/* Decorative blobs */}
       <div className="absolute top-20 -right-20 w-72 h-72 rounded-full bg-primary/10 blur-3xl animate-float" />
       <div className="absolute bottom-20 -left-20 w-60 h-60 rounded-full bg-secondary/10 blur-3xl animate-float" style={{ animationDelay: "3s" }} />
